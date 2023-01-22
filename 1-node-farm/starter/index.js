@@ -1,8 +1,10 @@
 const { Console } = require('console');
 const fs = require('fs')
-const http = require('http')
+const http = require('http');
+const { default: slugify } = require('slugify');
 const url = require('url')
 const replaceTemplate = require('./modules/replaceTemplate')
+const slugif = require('slugify')
 // //Blocking, synchronous way
 // const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
 // console.log(textIn)
@@ -35,6 +37,8 @@ const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`,`ut
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`)
 const dataObj = JSON.parse(data)
+const slugs = dataObj.map(el => slugif(el.productName, {lower: true}))
+console.log(slugs)
 const server = http.createServer((req, res) => {
 const {query, pathname} = url.parse(req.url, true)
     if(pathname === '/' || pathname === '/overview'){
